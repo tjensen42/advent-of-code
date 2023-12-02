@@ -43,11 +43,7 @@ impl FromStr for Game {
             })
             .expect("Invalid input!");
 
-        let sets = s
-            .next()
-            .and_then(|s| Some(s.split(';')))
-            .expect("Invalid input!");
-
+        let sets = s.next().map(|s| s.split(';')).expect("Invalid input!");
         game.sets = sets
             .map(|set| Set::from_str(set).expect("Invalid input!"))
             .collect();

@@ -18,9 +18,9 @@ struct Game {
 
 impl Game {
     pub fn minimum_set_of_cubes(&self) -> Set {
-        let r = self.sets.iter().map(|s| s.red).filter(|&r| r > 0).max();
-        let g = self.sets.iter().map(|s| s.green).filter(|&g| g > 0).max();
-        let b = self.sets.iter().map(|s| s.blue).filter(|&b| b > 0).max();
+        let r = self.sets.iter().map(|s| s.red).max();
+        let g = self.sets.iter().map(|s| s.green).max();
+        let b = self.sets.iter().map(|s| s.blue).max();
         Set::new(r.unwrap_or(0), g.unwrap_or(0), b.unwrap_or(0))
     }
 }
@@ -41,11 +41,7 @@ impl FromStr for Game {
             })
             .expect("Invalid input!");
 
-        let sets = s
-            .next()
-            .and_then(|s| Some(s.split(';')))
-            .expect("Invalid input!");
-
+        let sets = s.next().map(|s| s.split(';')).expect("Invalid input!");
         game.sets = sets
             .map(|set| Set::from_str(set).expect("Invalid input!"))
             .collect();

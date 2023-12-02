@@ -1,6 +1,6 @@
 fn main() {
     let input = include_str!("../input.txt");
-    let sum: u32 = input.lines().map(|line| calibration_value(line)).sum();
+    let sum: u32 = input.lines().map(calibration_value).sum();
     println!("Sum: {sum}");
 }
 

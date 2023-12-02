@@ -1,13 +1,10 @@
-static VALUES: [&str; 9] = [
+static NUMBERS_SPELLED: [&str; 9] = [
     "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
 ];
 
 fn main() {
     let input = include_str!("../input.txt");
-    let sum: usize = input
-        .lines()
-        .map(|line| calibration_value_for_line(line))
-        .sum();
+    let sum: usize = input.lines().map(calibration_value_for_line).sum();
     println!("Sum: {sum}");
 }
 
@@ -18,16 +15,16 @@ fn calibration_value_for_line(line: &str) -> usize {
 }
 
 fn first_number(line: &str) -> usize {
-    let value = VALUES
+    let value = NUMBERS_SPELLED
         .iter()
         .enumerate()
-        .filter_map(|(v, str)| line.find(*str).and_then(|pos| Some((pos, v + 1))))
+        .filter_map(|(v, str)| line.find(*str).map(|pos| (pos, v + 1)))
         .min_by(|a, b| a.cmp(b));
     let digit = line
         .char_indices()
         .find(|(_, c)| c.is_numeric())
-        .and_then(|(i, c)| Some((i, c.to_digit(10).unwrap() as usize)));
-    
+        .map(|(i, c)| (i, c.to_digit(10).unwrap() as usize));
+
     match (value, digit) {
         (Some((pos1, x1)), Some((pos2, x2))) => {
             if pos1 < pos2 {
@@ -42,15 +39,15 @@ fn first_number(line: &str) -> usize {
 }
 
 fn last_number(line: &str) -> usize {
-    let value = VALUES
+    let value = NUMBERS_SPELLED
         .iter()
         .enumerate()
-        .filter_map(|(v, str)| line.rfind(*str).and_then(|pos| Some((pos, v + 1))))
-        .max_by(|a, b| a.cmp(b));
+        .filter_map(|(v, str)| line.rfind(*str).map(|pos| (pos, v + 1)))
+        .max();
     let digit = line
         .char_indices()
         .rfind(|(_, c)| c.is_numeric())
-        .and_then(|(i, c)| Some((i, c.to_digit(10).unwrap() as usize)));
+        .map(|(i, c)| (i, c.to_digit(10).unwrap() as usize));
 
     match (value, digit) {
         (Some((pos1, x1)), Some((pos2, x2))) => {
