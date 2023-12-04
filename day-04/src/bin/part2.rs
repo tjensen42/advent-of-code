@@ -8,9 +8,8 @@ fn main() {
 fn process_input(input: &str) -> usize {
     let cards: Vec<_> = input.lines().map(|l| l.parse::<Card>().unwrap()).collect();
     let mut card_counter = vec![1; cards.len()];
-
     for card in cards {
-        if card.matching_numbers != 0 {
+        if card.matching_numbers > 0 {
             for i in 0..card.matching_numbers {
                 card_counter[card.index + i] += card_counter[card.index - 1];
             }
