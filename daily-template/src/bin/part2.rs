@@ -4,7 +4,7 @@ fn main() {
 }
 
 fn process_input(input: &str) -> usize {
-
+    43
 }
 
 #[cfg(test)]
@@ -14,6 +14,6 @@ mod test {
     #[test]
     fn test_input() {
         let input = include_str!("../test_input.txt").trim();
-        assert_eq!(process_input(input), );
+        assert_eq!(process_input(input), 42);
     }
 }
