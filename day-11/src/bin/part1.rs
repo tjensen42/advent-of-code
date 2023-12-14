@@ -27,31 +27,31 @@ fn process_input(input: &str) -> usize {
 fn universe_from_str(s: &str) -> Vec<Vec<usize>> {
     let mut counter = 1;
     let mut universe = Vec::new();
-    for (i, line) in s.lines().enumerate() {
+    for (x, line) in s.lines().enumerate() {
         universe.push(vec![0; line.chars().count()]);
-        for (j, char) in line.chars().enumerate() {
+        for (y, char) in line.chars().enumerate() {
             if char == '#' {
-                universe[i][j] = counter;
+                universe[x][y] = counter;
                 counter += 1;
             }
         }
-        assert_eq!(universe[i].len(), universe[0].len());
+        assert_eq!(universe[x].len(), universe[0].len());
     }
 
     let mut inserted = 0;
-    for i in 0..universe.len() {
-        let pos = i + inserted;
-        if universe[pos].iter().all(|&x| x == 0) {
-            universe.insert(pos + 1, universe[pos].clone());
+    for y in 0..universe.len() {
+        let new_y = y + inserted;
+        if universe[new_y].iter().all(|&e| e == 0) {
+            universe.insert(new_y + 1, universe[new_y].clone());
             inserted += 1;
         }
     }
 
     let mut inserted = 0;
-    for i in 0..universe[0].len() {
-        let pos = i + inserted;
-        if (0..universe.len()).all(|j| universe[j][pos] == 0) {
-            universe.iter_mut().for_each(|row| row.insert(pos + 1, 0));
+    for x in 0..universe[0].len() {
+        let new_x = x + inserted;
+        if universe.iter().all(|row| row[new_x] == 0) {
+            universe.iter_mut().for_each(|row| row.insert(new_x + 1, 0));
             inserted += 1;
         }
     }
