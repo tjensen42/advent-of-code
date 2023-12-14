@@ -17,13 +17,15 @@ fn process_input(input: &str, expansion_rate: usize) -> usize {
 
 fn galaxies_from_str(s: &str, expansion_rate: usize) -> Vec<(usize, usize)> {
     let expansion_rate = expansion_rate.saturating_sub(1);
-    let mut expansion_count = 0;
+
     let mut galaxies = Vec::new();
+    let mut expansion_count = 0;
     for (x, line) in s.lines().enumerate() {
         if line.chars().any(|c| c == '#') {
-            for (y, _) in line.chars().enumerate().filter(|(_, c)| *c == '#') {
-                galaxies.push((x + expansion_count * expansion_rate, y));
-            }
+            line.chars()
+                .enumerate()
+                .filter(|(_, c)| *c == '#')
+                .for_each(|(y, _)| galaxies.push((x + expansion_count * expansion_rate, y)));
         } else {
             expansion_count += 1;
         }

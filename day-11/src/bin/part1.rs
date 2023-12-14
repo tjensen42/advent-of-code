@@ -25,8 +25,8 @@ fn process_input(input: &str) -> usize {
 }
 
 fn universe_from_str(s: &str) -> Vec<Vec<usize>> {
-    let mut counter = 1;
     let mut universe = Vec::new();
+    let mut counter = 1;
     for (x, line) in s.lines().enumerate() {
         universe.push(vec![0; line.chars().count()]);
         for (y, char) in line.chars().enumerate() {
